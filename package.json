@@ -1,0 +1,27 @@
+{
+  "name": "classpro",
+  "module": "dist/index.js",
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "build": "bun build src/index.ts --outdir ./dist --target node",
+    "dev": "bun run src/index.ts",
+    "start": "bun run dist/index.js"
+  },
+  "description": "A CLI tool to initialize ClassPro front-end and back-end so it can be easily setup and hosted right away.",
+  "bin": {
+    "classpro": "./dist/index.js"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@types/prompts": "^2.4.9"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "colorette": "^2.0.20",
+    "prompts": "^2.4.2",
+    "tsx": "^4.19.2"
+  }
+}
