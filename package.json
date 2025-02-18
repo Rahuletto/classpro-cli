@@ -1,17 +1,24 @@
 {
   "name": "classpro",
   "module": "dist/index.js",
-  "version": "0.1.0",
+  "version": "0.1.4",
   "type": "module",
   "scripts": {
-    "build": "bun build src/index.ts --outdir ./dist --target node",
+    "build": "tsc",
     "dev": "bun run src/index.ts",
-    "start": "bun run dist/index.js"
+    "start": "bun run dist/index.js",
+    "prepublish": "bun run build"
   },
   "description": "A CLI tool to initialize ClassPro front-end and back-end so it can be easily setup and hosted right away.",
   "bin": {
     "classpro": "./dist/index.js"
   },
+  "exports": {
+    ".": "./dist/index.js"
+  },
+  "files": [
+    "dist"
+  ],
   "devDependencies": {
     "@types/bun": "latest",
     "@types/prompts": "^2.4.9"

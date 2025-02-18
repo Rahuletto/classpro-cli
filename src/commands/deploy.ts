@@ -1,6 +1,6 @@
 import { red, yellow } from "colorette";
-import { execAsync } from "../utils/execAsync";
-import { checkFoldersExist } from "../utils/exists";
+import { execAsync } from "../utils/execAsync.js";
+import { checkFoldersExist } from "../utils/exists.js";
 
 export async function deployCommand() {
     if (!await checkFoldersExist()) {

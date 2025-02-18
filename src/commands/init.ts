@@ -1,13 +1,12 @@
 import { blue, cyan, green, red, yellow } from "colorette";
-import { execAsync } from "../utils/execAsync";
-import { setupEnvironment } from "./config";
+import { execAsync } from "../utils/execAsync.js";
+import { setupEnvironment } from "./config.js";
 import { promises as fs } from 'fs';
 import { join } from 'path';
 
 export async function initCommand() {
     try {
         console.log(blue('🚀 Setting up Classpro...'));
-
 
         try {
             await execAsync('git --version');
@@ -55,6 +54,11 @@ export async function initCommand() {
         console.log(cyan('\n📝 Next steps:'));
         console.log(yellow('1. cd frontend && npm install (or yarn/pnpm install)'));
         console.log(yellow('2. cd ../backend && go mod tidy'));
+        console.log(yellow('3. Run "classpro setup-db" to initialize the database tables'));
+        console.log(yellow('\n⚠️ Important Configuration:'));
+        console.log(yellow('After starting your services, update these environment variables:'));
+        console.log(yellow('- In frontend/.env.local: Set NEXT_PUBLIC_URL to your backend URL (e.g., http://localhost:8080)'));
+        console.log(yellow('- In backend/.env: Set URL to your frontend URL (e.g., http://localhost:3000)'));
     } catch (error) {
         console.error('❌ Error:', error);
         process.exit(1);
