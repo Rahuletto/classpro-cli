@@ -1,15 +1,29 @@
 import { blue, green, red, yellow } from "colorette";
 import { createClient } from '@supabase/supabase-js';
+import { promises as fs } from 'fs';
+import { join } from 'path';
+import { parse } from 'dotenv';
 
 export async function setupDbCommand() {
     try {
         console.log(blue('🗄️ Setting up database tables and cron jobs...'));
 
-        const supabaseUrl = process.env.SUPABASE_URL;
-        const supabaseKey = process.env.SUPABASE_KEY;
+        let supabaseUrl, supabaseKey;
+        try {
+            const envPath = join('backend', '.env');
+            const envContent = await fs.readFile(envPath, 'utf-8');
+            const envVars = parse(envContent);
+            
+            supabaseUrl = envVars.SUPABASE_URL;
+            supabaseKey = envVars.SUPABASE_KEY;
+        } catch (error) {
+            console.error(red('❌ Could not read backend/.env file!'));
+            console.error(red('Please run "classpro init" first to set up environment variables.'));
+            process.exit(1);
+        }
 
         if (!supabaseUrl || !supabaseKey) {
-            console.error(red('❌ Missing Supabase credentials!'));
+            console.error(red('❌ Missing Supabase credentials in backend/.env!'));
             console.error(red('Please run "classpro init" first to set up environment variables.'));
             process.exit(1);
         }

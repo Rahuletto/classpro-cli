@@ -36,6 +36,15 @@ async function main() {
             showHelp();
             break;
 
+        case '':
+            showHelp();
+            break;
+        
+        case '--version':
+        case '-v':
+            console.log('classpro v' + require('../package.json').version);
+            break;
+
         default:
             console.error(`❌ Unknown command: ${command}`);
             showHelp();

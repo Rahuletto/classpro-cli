@@ -32,18 +32,31 @@ export async function initCommand() {
 
         const { frontendEnv, backendEnv } = await setupEnvironment();
 
-
-        await fs.mkdir('frontend', { recursive: true });
-        await fs.mkdir('backend', { recursive: true });
-
         console.log(blue('📦 Forking and cloning repositories...'));
         try {
-            await execAsync('gh repo fork rahuletto/classpro --clone=true --remote=true');
+            // Get authenticated user's username
+            const { stdout: username } = await execAsync('gh api user -q .login');
+            
+            // Check and handle classpro repository
+            try {
+                await execAsync(`gh repo view ${username.trim()}/classpro`);
+                await execAsync(`gh repo clone ${username.trim()}/classpro`);
+            } catch {
+                await execAsync('gh repo fork rahuletto/classpro --clone=true --remote=true');
+            }
+
+            // Check and handle goscraper repository
+            try {
+                await execAsync(`gh repo view ${username.trim()}/goscraper`);
+                await execAsync(`gh repo clone ${username.trim()}/goscraper`);
+            } catch {
+                await execAsync('gh repo fork rahuletto/goscraper --clone=true --remote=true');
+            }
+
             await execAsync('mv classpro frontend');
-            await execAsync('gh repo fork rahuletto/goscraper --clone=true --remote=true');
             await execAsync('mv goscraper backend');
         } catch (error) {
-            console.error('❌ Error forking repositories:', error);
+            console.error(red('❌ Error handling repositories:'), error);
             process.exit(1);
         }
 
@@ -54,7 +67,7 @@ export async function initCommand() {
         console.log(cyan('\n📝 Next steps:'));
         console.log(yellow('1. cd frontend && npm install (or yarn/pnpm install)'));
         console.log(yellow('2. cd ../backend && go mod tidy'));
-        console.log(yellow('3. Run "classpro setup-db" to initialize the database tables'));
+        console.log(yellow('3. Run "classpro setupdb" to initialize the database tables'));
         console.log(yellow('\n⚠️ Important Configuration:'));
         console.log(yellow('After starting your services, update these environment variables:'));
         console.log(yellow('- In frontend/.env.local: Set NEXT_PUBLIC_URL to your backend URL (e.g., http://localhost:8080)'));

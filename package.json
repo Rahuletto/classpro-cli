@@ -1,7 +1,7 @@
 {
   "name": "classpro",
   "module": "dist/index.js",
-  "version": "0.1.4",
+  "version": "0.1.7",
   "type": "module",
   "scripts": {
     "build": "tsc",
@@ -29,6 +29,7 @@
   "dependencies": {
     "@supabase/supabase-js": "^2.48.1",
     "colorette": "^2.0.20",
+    "dotenv": "^16.4.7",
     "prompts": "^2.4.2",
     "tsx": "^4.19.2"
   }

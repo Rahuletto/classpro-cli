@@ -12,12 +12,10 @@ export async function syncCommand() {
     console.log(blue('🔄 Syncing repositories with upstream...'));
 
     try {
-        // Sync frontend repository
         console.log(blue('📦 Syncing frontend repository...'));
         await execAsync('cd frontend && git fetch upstream && git checkout main && git merge upstream/main');
         console.log(green('✅ Frontend repository synced successfully!'));
 
-        // Sync backend repository
         console.log(blue('📦 Syncing backend repository...'));
         await execAsync('cd backend && git fetch upstream && git checkout main && git merge upstream/main');
         console.log(green('✅ Backend repository synced successfully!'));
