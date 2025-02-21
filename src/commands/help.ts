@@ -6,10 +6,11 @@ ${bold(blue('Classpro CLI'))} - Command Line Interface
 
 ${yellow('Commands:')}
   ${green('init')}           Initialize a new Classpro project
-  ${green('setupdb')}        Set up database tables and cron jobs
+  ${green('upgrade')}        Update your backend and frontend to latest versions
   ${green('deploy')}         Build and start both frontend and backend
   ${green('config')}         Update project configuration
   ${green('help')}           Show this help message
+  ${green('version')}        Get version of the CLI
 
 ${yellow('Usage:')}
   classpro <command>

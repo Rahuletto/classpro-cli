@@ -4,8 +4,10 @@ import { deployCommand } from './commands/deploy.js';
 import { showHelp } from './commands/help.js';
 import { configCommand } from './commands/config.js';
 import { initCommand } from './commands/init.js';
-import { setupDbCommand } from './commands/setupDb.js';
 import { syncCommand } from './commands/sync.js';
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
+import { readFileSync } from 'fs';
 
 async function main() {
     const command = process.argv[2] || 'help';
@@ -22,11 +24,9 @@ async function main() {
         case 'config':
             await configCommand();
             break;
-        case 'setupdb':
-            await setupDbCommand();
-            break;
 
         case 'sync':
+        case 'upgrade':
             await syncCommand();
             break;
 
@@ -41,8 +41,12 @@ async function main() {
             break;
         
         case '--version':
+        case 'version':
         case '-v':
-            console.log('classpro v' + require('../package.json').version);
+            const __filename = fileURLToPath(import.meta.url);
+            const __dirname = dirname(__filename);
+            const packageJson = JSON.parse(readFileSync(join(__dirname, '../package.json'), 'utf8'));
+            console.log(`classpro v${packageJson.version}`);
             break;
 
         default:

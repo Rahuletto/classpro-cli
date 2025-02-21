@@ -28,7 +28,7 @@ export async function configCommand(args?: string[]) {
 
     await fs.writeFile(join('frontend', '.env.local'), frontendEnv);
     await fs.writeFile(join('backend', '.env'), backendEnv);
-    
+
     console.log(green('✅ Configuration updated successfully!'));
 }
 
@@ -104,6 +104,12 @@ export async function setupEnvironment() {
         },
         {
             type: 'text',
+            name: 'encryptionKey',
+            message: 'Enter your Encryption Key (press Enter to generate one):',
+            initial: await generateEncryptionKey()
+        },
+        {
+            type: 'text',
             name: 'validationKey',
             message: 'Enter your Validation Key (press Enter to generate one):',
             initial: () => execAsync('openssl rand -hex 32').then(({ stdout }) => stdout.trim())
@@ -115,7 +121,6 @@ export async function setupEnvironment() {
         }
     ]);
 
-    const encryptionKey = await generateEncryptionKey();
 
     const frontendEnv = `NEXT_PUBLIC_URL="${response.corsUrl}"
 NEXT_PUBLIC_VALIDATION_KEY="${response.validationKey}"
@@ -125,7 +130,7 @@ NEXT_PUBLIC_SUPABASE_URL="${response.supabaseUrl}"`;
     // Create backend .env
     const backendEnv = `SUPABASE_URL="${response.supabaseUrl}"
 SUPABASE_KEY="${response.supabaseKey}"
-ENCRYPTION_KEY="${encryptionKey}"
+ENCRYPTION_KEY="${response.encryptionKey}"
 VALIDATION_KEY="${response.validationKey}"
 URL="${response.corsUrl}"`;
 

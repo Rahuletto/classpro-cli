@@ -21,5 +21,6 @@
     "noUnusedLocals": true,
     "noUnusedParameters": false,
     "noPropertyAccessFromIndexSignature": false
-  }
+  },
+  "exclude": ["node_modules", "classpro"]
 }
